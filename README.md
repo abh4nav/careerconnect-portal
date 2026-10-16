@@ -1,44 +1,149 @@
-# CareerConnect — Placement Management Portal
+# CareerConnect — Placement Portal
 
-A full-stack portfolio project for campus placements. This starter includes a React dashboard and an Express API with demo data, so you can run it locally before adding a database and authentication.
+CareerConnect is a full-stack placement portal built to help students explore job opportunities and manage job applications. Administrators can create and edit job postings, view applicants, and manage application statuses.
 
-## Features in this starter
-- Placement dashboard with summary statistics
-- Searchable job/internship listings
-- Apply to a listing and track application status
-- Add a placement opportunity through the API
-- REST API with basic input validation
-- Responsive UI
+## Features
 
-## Requirements
-- Node.js 20+ and npm
+### Student
+- Register and log in securely.
+- Browse available job opportunities.
+- Apply for jobs.
+- View and track submitted applications.
 
-## Run locally
-Open two terminals.
+### Administrator
+- Log in with an administrator account.
+- Create new job postings.
+- Edit existing job postings.
+- View applicants for individual jobs.
+- Review applicant details and update application statuses.
 
-### 1. Start the API
+### Authentication and Security
+- JWT-based authentication.
+- Role-based access control for students and administrators.
+- Password hashing.
+- Protected API routes.
+
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Frontend | React, Vite, CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| ODM | Mongoose |
+| Authentication | JSON Web Tokens (JWT) |
+
+## Project Structure
+
+```text
+careerconnect-portal/
+├── client/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── styles.css
+│   ├── package.json
+│   └── index.html
+├── server/
+│   ├── src/
+│   │   ├── middleware/
+│   │   │   └── auth.js
+│   │   ├── models/
+│   │   │   └── User.js
+│   │   ├── routes/
+│   │   │   └── auth.js
+│   │   └── index.js
+│   └── package.json
+├── .gitignore
+└── README.md
+```
+
+## Run Locally
+
+### Prerequisites
+- Node.js and npm
+- A MongoDB Atlas database or another compatible MongoDB instance
+
+### 1. Configure the backend
+
+Open a terminal in the project root:
+
 ```bash
 cd server
 npm install
+```
+
+Create a `server/.env` file with the environment variables expected by the backend:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_long_random_secret
+```
+
+Replace the placeholders with your own values. Never commit this file or publish its contents.
+
+### 2. Start the backend
+
+```bash
 npm run dev
 ```
-API runs at http://localhost:5000.
 
-### 2. Start the frontend
+The backend runs on the port configured by the application, which defaults to port `5000` if configured that way.
+
+### 3. Start the frontend
+
+Open a second terminal from the project root:
+
 ```bash
 cd client
 npm install
 npm run dev
 ```
-Open the URL Vite prints (usually http://localhost:5173).
 
-## API endpoints
-- `GET /api/health` — health check
-- `GET /api/jobs` — list jobs (optional `?search=`)
-- `POST /api/jobs` — create a job
-- `GET /api/applications` — list applications
-- `POST /api/applications` — apply to a job
-- `PATCH /api/applications/:id` — update application status
+Open the local URL displayed by Vite in your terminal.
 
-## Important next steps before putting it on a resume
-This is a learning starter, not a production-ready deployment. The demo API stores data in memory, so data resets when the server restarts. Add PostgreSQL + Prisma, authentication with hashed passwords, role-based access (student/placement officer/recruiter), tests, and deployment before describing those features on your resume. Never claim features you have not implemented.
+## API Overview
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/health` | Check API and database connection status |
+| GET | `/api/jobs` | Retrieve job postings |
+| POST | `/api/jobs` | Create a job posting (administrator) |
+| PATCH | `/api/jobs/:id` | Edit a job posting (administrator) |
+| POST | `/api/applications` | Submit a job application |
+| GET | `/api/applications` | Retrieve applications based on the user's role |
+| PATCH | `/api/applications/:id` | Update an application (administrator) |
+
+Authentication and registration endpoints are implemented in the server authentication routes.
+
+## Environment Variables
+
+Configure the following on your local machine and in your hosting provider:
+
+- `MONGODB_URI` — MongoDB connection string.
+- `JWT_SECRET` — secret used to sign and verify JWTs.
+- `PORT` — optional server port, depending on the deployment environment.
+- `VITE_API_URL` — frontend API base URL, when configured for deployment.
+
+Do not put secret values in source code or GitHub.
+
+## Deployment
+
+The intended deployment setup is:
+
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** MongoDB Atlas
+
+Live URLs will be added after deployment and testing are complete.
+
+## Future Improvements
+
+- Automated tests for API routes and authentication.
+- Improved validation, rate limiting, and production security hardening.
+- More detailed application tracking and reporting.
+- Accessibility and responsive UI improvements.
+
+## Project Status
+
+CareerConnect is a learning and demonstration project. Its implemented features should be tested in the deployed environment before being relied on in production. Additional testing and security hardening are recommended before production use.
